@@ -1,10 +1,10 @@
 const express = require("express")
 const router = express.Router()
-const armor = require("../models/armor.model")
+const decoration = require("../models/decoration.model")
 
 router.post("/add", (req,res)=>{
     console.log(req.body)
-    return armor.add(res, req.body)
+    return decoration.add(res, req.body)
 })
 
 module.exports = router
