@@ -9,7 +9,7 @@ async function add(res, decoration)
         }
 
         let [name] =
-        await pool.query("SELECT * FROM deocrations WHERE decorations.name = ?", [decoration.name])
+        await pool.query("SELECT * FROM decorations WHERE decorations.name = ?", [decoration.name])
         
         if(name.length > 0)
         {
@@ -34,4 +34,67 @@ async function add(res, decoration)
     }
 }
 
-module.exports = {add}
+async function byName(res, Name){
+    try{
+        const[decorations] = await pool.query("SELECT * FROM decorations WHERE decorations.name = ?", [Name])
+        
+        return res.send({
+            success: true,
+            data: decorations,
+            error: null
+        })
+    }
+    catch(err){
+        console.log(err)
+        return res.send({
+            
+            success: false,
+            data: null,
+            error: err
+        })
+    }
+};
+
+async function bySkill(res, Skill){
+    try{
+        const[decorations] = await pool.query("SELECT * FROM decorations WHERE decorations.skill1 = ?", [Skill])
+        
+        return res.send({
+            success: true,
+            data: decorations,
+            error: null
+        })
+    }
+    catch(err){
+        console.log(err)
+        return res.send({
+            
+            success: false,
+            data: null,
+            error: err
+        })
+    }
+};
+
+async function all(res){
+    try{
+        const[decorations] = await pool.query("SELECT * FROM decorations")
+
+        return res.send({
+            success: true,
+            data: decorations,
+            error: null
+        })
+    }
+    catch(err){
+        console.log(err)
+        return res.send({
+            
+            success: false,
+            data: null,
+            error: err
+        })
+    }
+};
+
+module.exports = {add, all, byName}
