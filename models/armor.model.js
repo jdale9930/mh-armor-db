@@ -36,4 +36,111 @@ async function add(res, armor)
     }
 }
 
-module.exports = {add}
+async function byName(res, Name){
+    try{
+        const[armor] = await pool.query("SELECT * FROM armor WHERE armor.name LIKE %?%", [Name])
+        
+        return res.send({
+            success: true,
+            data: armor,
+            error: null
+        })
+    }
+    catch(err){
+        console.log(err)
+        return res.send({
+            
+            success: false,
+            data: null,
+            error: err
+        })
+    }
+};
+
+async function bySkill(res, Skill){
+    try{
+        const[armor] = await pool.query("SELECT * FROM armor WHERE armor.skill1, armor.skill2, armor.skill3, armor.skill4 LIKE %?%", [Skill])
+        
+        return res.send({
+            success: true,
+            data: armor,
+            error: null
+        })
+    }
+    catch(err){
+        console.log(err)
+        return res.send({
+            
+            success: false,
+            data: null,
+            error: err
+        })
+    }
+};
+
+async function bySlots(res, Slots){
+    try{
+        const[armor] = await pool.query("SELECT * FROM armor WHERE slots >= ?", [Slots])
+        
+        return res.send({
+            success: true,
+            data: armor,
+            error: null
+        })
+    }
+    catch(err){
+        console.log(err)
+        return res.send({
+            
+            success: false,
+            data: null,
+            error: err
+        })
+    }
+};
+
+async function byType(res, Type){
+    try{
+        const[armor] = await pool.query("SELECT * FROM armor WHERE type = ?", [Type])
+        
+        return res.send({
+            success: true,
+            data: armor,
+            error: null
+        })
+    }
+    catch(err){
+        console.log(err)
+        return res.send({
+            
+            success: false,
+            data: null,
+            error: err
+        })
+    }
+};
+
+async function byClass(res, Class){
+    try{
+        const[armor] = await pool.query("SELECT * FROM armor WHERE class = ?", [Class])
+        
+        return res.send({
+            success: true,
+            data: armor,
+            error: null
+        })
+    }
+    catch(err){
+        console.log(err)
+        return res.send({
+            
+            success: false,
+            data: null,
+            error: err
+        })
+    }
+};
+
+
+
+module.exports = {add, byName, bySkill, bySlots, byType, byClass}
