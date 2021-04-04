@@ -34,6 +34,35 @@ async function add(res, decoration)
     }
 }
 
+async function search(res, name, skill){
+    try{
+        console.log(name, skill)
+        decoName = name ? `%${name}%` : "%";
+        skill1 = skill ? `%${skill}%` : "%";
+        skill2 = skill ? `%${skill}%` : "%";
+        console.log(decoName, skill1)
+
+        const [decorations] = await pool.query(
+            "SELECT * FROM decorations WHERE decorations.name LIKE ? AND (decorations.skill1 LIKE ? OR decorations.skill2 LIKE ?)",
+            [decoName, skill1, skill2])
+            console.log(decorations)
+            return res.send({
+                success: true,
+                data: decorations,
+                error: null
+            })
+    }
+    catch(err)
+    {
+        console.log(err)
+        return res.send({
+            success: false,
+            data: null,
+            error: err
+        })
+    } 
+}
+
 async function byName(res, Name){
     try{
         const[decorations] = await pool.query("SELECT * FROM decorations WHERE decorations.name = ?", [Name])
@@ -97,4 +126,4 @@ async function all(res){
     }
 };
 
-module.exports = {add, all, byName}
+module.exports = {add, all, byName, search}

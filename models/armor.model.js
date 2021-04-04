@@ -36,10 +36,44 @@ async function add(res, armor)
     }
 }
 
-async function byName(res, Name){
+async function search(res, name, skill, slots, type){
     try{
-        const[armor] = await pool.query("SELECT * FROM armor WHERE armor.name LIKE %?%", [Name])
-        
+        console.log(name, skill, slots, type)
+        armorName = name ? `%${name}%` : "%";
+        skill1 = skill ? `%${skill}%` : "%";
+        skill2 = skill ? `%${skill}%` : "%";
+        skill3 = skill ? `%${skill}%` : "%";
+        skill4 = skill ? `%${skill}%` : "%";
+        slots = slots ? slots : 0;
+        type = type ? `%${type}%` : "%";
+        console.log(armorName, skill1, slots, type)
+
+        const [armor] = await pool.query(
+            "SELECT * FROM armor WHERE armor.name LIKE ? AND (armor.skill1 LIKE ? OR armor.skill2 LIKE ? OR armor.skill3 LIKE ? OR armor.skill4 LIKE ?) AND armor.slots >= ? AND armor.type LIKE ?",
+            [armorName, skill1, skill2, skill3, skill4, slots, type])
+            console.log(armor)
+            return res.send({
+                success: true,
+                data: armor,
+                error: null
+            })
+    }
+    catch(err)
+    {
+        console.log(err)
+        return res.send({
+            success: false,
+            data: null,
+            error: err
+        })
+    } 
+}
+
+async function byName(res, name){
+    try{
+        console.log(name)
+        const[armor] = await pool.query("SELECT * FROM armor WHERE armor.name LIKE ?", [`%${name}%`])
+        console.log(armor)
         return res.send({
             success: true,
             data: armor,
@@ -59,7 +93,8 @@ async function byName(res, Name){
 
 async function bySkill(res, Skill){
     try{
-        const[armor] = await pool.query("SELECT * FROM armor WHERE armor.skill1, armor.skill2, armor.skill3, armor.skill4 LIKE %?%", [Skill])
+        const[armor] = await pool.query("SELECT * FROM armor WHERE armor.skill1 LIKE ? OR armor.skill2 LIKE ? OR armor.skill3 LIKE ? OR armor.skill4 LIKE ?", 
+        [`%${Skill}%`, `%${Skill}%`, `%${Skill}%`, `%${Skill}%`])
         
         return res.send({
             success: true,
@@ -143,4 +178,4 @@ async function byClass(res, Class){
 
 
 
-module.exports = {add, byName, bySkill, bySlots, byType, byClass}
+module.exports = {add, byName, bySkill, bySlots, byType, byClass, search}

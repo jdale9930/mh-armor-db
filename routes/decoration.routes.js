@@ -7,6 +7,10 @@ router.post("/add", (req,res)=>{
     return decoration.add(res, req.body)
 })
 
+router.get("/search", (req, res)=>{
+    return decoration.search(res, req.query.name, req.query.skill)
+})
+
 router.get("/all", (req, res)=>{
     return decoration.all(res);
 })
@@ -16,7 +20,7 @@ router.get("/byName/:Name", (req, res)=>{
 })
 
 router.get("/bySkill/:Skill", (req, res)=>{
-    return decoration.bySkill(res, req.params.Name)
+    return decoration.bySkill(res, req.params.Skill)
 })
 
 module.exports = router
