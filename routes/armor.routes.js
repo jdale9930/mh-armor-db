@@ -13,7 +13,7 @@ router.get("/all", (req, res)=>{
 
 
 router.get("/search", (req, res)=>{
-    return armor.search(res, req.query.name, req.query.skill, req.query.slots, req.query.type)
+    return armor.search(res, req.query.name, req.query.skill, req.query.piece)
 })
 
 router.get("/bySkill/:skill", (req, res)=>{
