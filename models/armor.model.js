@@ -15,12 +15,12 @@ async function add(res, armor)
         {
             throw "That armor is already made!"
         }
-
-        await pool.query("INSERT INTO armor (name, class, type, gender, skill1, skill2, skill3, skill4, defense, fireRes, waterRes, thunderRes, iceRes, dragonRes, slots, rarity) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
-        [armor.name, armor.class, armor.type, armor.gender, armor.skill1, armor.skill2, armor.skill3, armor.skill4,
+        await pool.query("INSERT INTO armor (name, piece, armorSet, gender, rarity, slot1, slot2, slot3, skill1, skill1Value, skill2, skill2Value, skill3, skill3Value, skill4, skill4Value, defense, fireRes, waterRes, thunderRes, iceRes, dragonRes) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+        [armor.name, armor.piece, armor.armorSet, armor.gender, armor.rarity, 
+        armor.slot1, armor.slot2, armor.slot3,
+        armor.skill1, armor.skill1Value, armor.skill2, armor.skill2Value, armor.skill3, armor.skill4Value, armor.skill4, armor.skill4Value,
         armor.defense, armor.fireRes, armor.waterRes, armor.thunderRes, armor.iceRes, armor.dragonRes,
-        armor.slots, armor.rarity]
-        )
+        ])
         return res.send({
             success: true,
             data: `Successfully added ${armor.name}`,
@@ -36,21 +36,21 @@ async function add(res, armor)
     }
 }
 
-async function search(res, name, skill, slots, type){
+async function search(res, name, skill, slots, piece){
     try{
-        console.log(name, skill, slots, type)
+        console.log(name, skill, slots, piece)
         armorName = name ? `%${name}%` : "%";
         skill1 = skill ? `%${skill}%` : "%";
         skill2 = skill ? `%${skill}%` : "%";
         skill3 = skill ? `%${skill}%` : "%";
         skill4 = skill ? `%${skill}%` : "%";
         slots = slots ? slots : 0;
-        type = type ? `%${type}%` : "%";
-        console.log(armorName, skill1, slots, type)
+        piece = piece ? `%${piece}%` : "%";
+        console.log(armorName, skill1, slots, piece)
 
         const [armor] = await pool.query(
-            "SELECT * FROM armor WHERE armor.name LIKE ? AND (armor.skill1 LIKE ? OR armor.skill2 LIKE ? OR armor.skill3 LIKE ? OR armor.skill4 LIKE ?) AND armor.slots >= ? AND armor.type LIKE ?",
-            [armorName, skill1, skill2, skill3, skill4, slots, type])
+            "SELECT * FROM armor WHERE armor.name LIKE ? AND (armor.skill1 LIKE ? OR armor.skill2 LIKE ? OR armor.skill3 LIKE ? OR armor.skill4 LIKE ?) AND armor.piece LIKE ?",
+            [armorName, skill1, skill2, skill3, skill4, piece])
             console.log(armor)
             return res.send({
                 success: true,

@@ -16,8 +16,8 @@ async function add(res, decoration)
             throw "That decoration is already made!"
         }
 
-        await pool.query("INSERT INTO decorations (name, skill1, skill2, slots) VALUES (?,?,?,?)",
-        [decoration.name, decoration.skill1, decoration.skill2, decoration.slots]
+        await pool.query("INSERT INTO decorations (name, skill1, skill1Value, slot) VALUES (?,?,?,?)",
+        [decoration.name, decoration.skill1, decoration.skill1Value, decoration.slot]
         )
         return res.send({
             success: true,
@@ -39,12 +39,11 @@ async function search(res, name, skill){
         console.log(name, skill)
         decoName = name ? `%${name}%` : "%";
         skill1 = skill ? `%${skill}%` : "%";
-        skill2 = skill ? `%${skill}%` : "%";
         console.log(decoName, skill1)
 
         const [decorations] = await pool.query(
-            "SELECT * FROM decorations WHERE decorations.name LIKE ? AND (decorations.skill1 LIKE ? OR decorations.skill2 LIKE ?)",
-            [decoName, skill1, skill2])
+            "SELECT * FROM decorations WHERE decorations.name LIKE ? AND decorations.skill1 LIKE ?",
+            [decoName, skill1])
             console.log(decorations)
             return res.send({
                 success: true,

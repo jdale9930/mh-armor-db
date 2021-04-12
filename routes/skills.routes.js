@@ -1,7 +1,6 @@
 const express = require("express")
-const { bySkill } = require("../models/armor.model")
 const router = express.Router()
-const decoration = require("../models/skills.model")
+const skills = require("../models/skills.model")
 
 router.post("/add", (req,res)=>{
     console.log(req.body)
