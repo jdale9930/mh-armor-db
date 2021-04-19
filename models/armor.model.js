@@ -38,7 +38,6 @@ async function add(res, armor)
 
 async function search(res, name, skill, slots, piece){
     try{
-        console.log(name, skill, slots, piece)
         armorName = name ? `%${name}%` : "%";
         skill1 = skill ? `%${skill}%` : "%";
         skill2 = skill ? `%${skill}%` : "%";

@@ -1,6 +1,6 @@
 const pool = require("../config/mysql.conf")
 const bcrypt = require("bcrypt")
-import {v4 as uuidv4} from "uuid"
+const {v4: uuidv4} = require(`uuid`)
 const saltRounds = 12
 
 async function signup(res, user){
@@ -12,8 +12,7 @@ async function signup(res, user){
         if(user.password.length <8 || user.password.length > 20){
             throw "Password must be between 8 to 20 characters!"
         }
-
-        let nameCheck = await pool.query("SELECT * FROM users WHERE users.username = ?", [user.username])
+        let [nameCheck] = await pool.query("SELECT * FROM users WHERE users.username = ?", [user.username])
         if(nameCheck.length > 0){
             throw `The username ${user.username} is already taken!`
         }
@@ -37,18 +36,20 @@ async function signup(res, user){
 }
 
 async function login(res, user){
+    console.log(user)
     try{
-        let userCheck = await pool.query("GET * FROM users WHERE users.username = ?",[user.username])
+        let [userCheck] = await pool.query("SELECT * FROM users WHERE users.username = ?",[user.username])
         if(userCheck.length === 0){
-            throw "Incorrect username"
+            throw "Incorrect username or password"
         }
-        let compare = bcrypt.compareSync(user.password, userCheck.password)
+        console.log(userCheck)
+        let compare = bcrypt.compareSync(user.password, userCheck[0].password)
         if(compare === false){
-            throw "Incorrect password"
+            throw "Incorrect password or password"
         }
         return res.send({
             success: true,
-            data: user,
+            data: userCheck[0],
             error: null
         })
     }
@@ -60,5 +61,7 @@ async function login(res, user){
         })
     }
 }
+
+
 
 module.exports = {signup, login}

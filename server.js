@@ -6,7 +6,6 @@ const armorRoutes = require("./routes/armor.routes")
 const decorationRoutes = require("./routes/decoration.routes")
 const skillsRoutes = require("./routes/skills.routes")
 const userRoutes = require("./routes/user.routes")
-const bcrypt = require("bcrypt")
 
 const bodyParser = require(`body-parser`)
 
