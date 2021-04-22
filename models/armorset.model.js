@@ -4,14 +4,19 @@ const {v4: uuidv4} = require(`uuid`)
 async function add(res, armorset)
 {
     try{
-        let [armorsetCheck] = await pool.query("SELECT * FROM armorset WHERE user_id = ?", [talisman.user_id])
-        const nameCheck = armorsetCheck.find(e => e.name === talisman.name)
+        let [armorsetCheck] = await pool.query("SELECT * FROM armorset WHERE user_id = ?", [armorset.user_id])
+        const nameCheck = armorsetCheck.find(e => e.name === armorset.name)
         if(nameCheck){
             throw ("Armor Set with that name already exists!")
         }
         let id = uuidv4()
-        await pool.query("INSERT INTO armorset (id, user_id, name, weapon, desription, defense, fireRes, waterRes, thunderRes, iceRes, dragonRes, head, torso, arms, waist, legs, talisman_id,  skill1, skill1Value, skill2, skill2Value, skill3, skill3Value, skill4, skill4Value, skill5, skill5Value, skill6, skill6Value, skill7, skill7Value, skill8, skill8Value, skill9, skill9Value, skill10, skill10Vale, skill11, skill11Value, skill12, skill12Value, skill13, skill13Value, skill14, skill14Value, skill15, skill15Value, skill16, skill16Value, headSlot1, headSlot2, headSlot3, torsoSlot1, torsoSlot2, torsoSlot3, armsSlot1, armsSlot2, armsSlot3, waistSlot1, waistSlot2, waistSlot3, legsSlot1, legsSlot2, legsSlot3, talismanSlot1, talismanSlot2, talismanSlot3) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
-        ,[id, armorset.user_id, armorset.name, armorset.weapon, armoset.decription, 
+
+        console.log(
+
+            ) 
+
+        await pool.query("INSERT INTO armorset (id, user_id, name, weapon, description, defense, fireRes, waterRes, thunderRes, iceRes, dragonRes, head, torso, arms, waist, legs, talisman_id,  skill1, skill1Value, skill2, skill2Value, skill3, skill3Value, skill4, skill4Value, skill5, skill5Value, skill6, skill6Value, skill7, skill7Value, skill8, skill8Value, skill9, skill9Value, skill10, skill10Value, skill11, skill11Value, skill12, skill12Value, skill13, skill13Value, skill14, skill14Value, skill15, skill15Value, skill16, skill16Value, headSlot1, headSlot2, headSlot3, torsoSlot1, torsoSlot2, torsoSlot3, armsSlot1, armsSlot2, armsSlot3, waistSlot1, waistSlot2, waistSlot3, legsSlot1, legsSlot2, legsSlot3, talismanSlot1, talismanSlot2, talismanSlot3) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+        ,[id, armorset.user_id, armorset.name, armorset.weapon, armorset.description, 
             armorset.defense, armorset.fireRes, armorset.waterRes, armorset.thunderRes, armorset.iceRes, armorset.dragonRes,
             armorset.head, armorset.torso, armorset.arms, armorset.waist, armorset.legs, armorset.talisman_id,
             armorset.skill1, armorset.skill1Value, armorset.skill2, armorset.skill2Value, armorset.skill3, armorset.skill3Value,
@@ -26,10 +31,7 @@ async function add(res, armorset)
             armorset.waistSlot1, armorset.waistSlot2, armorset.waistSlot3,
             armorset.legsSlot1, armorset.legsSlot2, armorset.legsSlot3,
             armorset.talismanSlot1, armorset.talismanSlot2, armorset.talismanSlot3,
-
-
         ])
-        console.log("pls")
         return res.send({
             success: true,
             data: "Succesfully created Armor Set!",
@@ -91,4 +93,4 @@ async function remove(res, armorset){
 //         })
 //     } 
 // }
-module.exports = {add, remove, search}
+module.exports = {add, remove}

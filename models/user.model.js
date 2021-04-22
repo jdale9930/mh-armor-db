@@ -36,13 +36,11 @@ async function signup(res, user){
 }
 
 async function login(res, user){
-    console.log(user)
     try{
         let [userCheck] = await pool.query("SELECT * FROM users WHERE users.username = ?",[user.username])
         if(userCheck.length === 0){
             throw "Incorrect username or password"
         }
-        console.log(userCheck)
         let compare = bcrypt.compareSync(user.password, userCheck[0].password)
         if(compare === false){
             throw "Incorrect password or password"

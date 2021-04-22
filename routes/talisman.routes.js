@@ -11,7 +11,7 @@ router.post("/remove", (req,res)=>{
 })
 
 router.get("/search", (req, res)=>{
-    return talisman.search(res, req.body.user_id, req.query.name, req.query.skill)
+    return talisman.search(res, req.query.id, req.query.name, req.query.skill, req.query.slots)
 })
 
 

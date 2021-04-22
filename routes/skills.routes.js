@@ -3,7 +3,6 @@ const router = express.Router()
 const skills = require("../models/skills.model")
 
 router.post("/add", (req,res)=>{
-    console.log(req.body)
     return skills.add(res, req.body)
 })
 
