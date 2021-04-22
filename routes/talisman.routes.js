@@ -1,13 +1,17 @@
 const express = require("express")
 const router = express.Router()
-const user = require("../models/talisman.model")
+const talisman = require("../models/talisman.model")
 
-router.post("/create", (req,res)=>{
-    return talisman.create(res, req.body)
+router.post("/add", (req,res)=>{
+    return talisman.add(res, req.body)
 })
 
-router.post("/delete", (req,res)=>{
-    return talisman.delete(res, req.body);
+router.post("/remove", (req,res)=>{
+    return talisman.remove(res, req.body);
+})
+
+router.get("/search", (req, res)=>{
+    return talisman.search(res, req.body.user_id, req.query.name, req.query.skill)
 })
 
 
