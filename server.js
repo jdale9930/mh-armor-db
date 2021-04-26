@@ -1,6 +1,10 @@
 require("dotenv").config()
 const express = require("express")
+const session = require("express-session")
 const app = express()
+
+app.use(session({secret: "It's a secret", resave: false, saveUninitialized: true}))
+
 const port = process.env.PORT || 9090
 const armorRoutes = require("./routes/armor.routes")
 const decorationRoutes = require("./routes/decoration.routes")

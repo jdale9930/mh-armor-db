@@ -7,7 +7,7 @@ router.post("/signup", (req,res)=>{
 })
 
 router.post("/login", (req,res)=>{
-    return user.login(res, req.body);
+    return user.login(res, req.body, req);
 })
 
 

@@ -11,10 +11,6 @@ async function add(res, armorset)
         }
         let id = uuidv4()
 
-        console.log(
-
-            ) 
-
         await pool.query("INSERT INTO armorset (id, user_id, name, weapon, description, defense, fireRes, waterRes, thunderRes, iceRes, dragonRes, head, torso, arms, waist, legs, talisman_id,  skill1, skill1Value, skill2, skill2Value, skill3, skill3Value, skill4, skill4Value, skill5, skill5Value, skill6, skill6Value, skill7, skill7Value, skill8, skill8Value, skill9, skill9Value, skill10, skill10Value, skill11, skill11Value, skill12, skill12Value, skill13, skill13Value, skill14, skill14Value, skill15, skill15Value, skill16, skill16Value, headSlot1, headSlot2, headSlot3, torsoSlot1, torsoSlot2, torsoSlot3, armsSlot1, armsSlot2, armsSlot3, waistSlot1, waistSlot2, waistSlot3, legsSlot1, legsSlot2, legsSlot3, talismanSlot1, talismanSlot2, talismanSlot3) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
         ,[id, armorset.user_id, armorset.name, armorset.weapon, armorset.description, 
             armorset.defense, armorset.fireRes, armorset.waterRes, armorset.thunderRes, armorset.iceRes, armorset.dragonRes,
@@ -65,32 +61,44 @@ async function remove(res, armorset){
     }
 }
 
-// async function search(res, user_id, name, skill, slot){
-//     try{
-//         talismanName = name ? `%${name}%` : "%";
-//         skill1 = skill ? `%${skill}%` : "%";
-//         skill2 = skill ? `%${skill}%` : "%";
-//         slot1 = slot ? slot : 0;
-//         slot2 = slot ? slot : 0;
-//         slot3 = slot ? slot : 0;
-//         console.log(slot)
-//         const [results] = await pool.query(
-//             "SELECT * FROM talismans WHERE talismans.user_id = ? AND talismans.name LIKE ? AND (talismans.skill1 LIKE ? OR talismans.skill2 LIKE ?) AND (talismans.slot1 >= ? OR talismans.slot2 >= ? OR talismans.slot3 >= ?)",
-//             [user_id, talismanName, skill1, skill2, slot1, slot2, slot3])
-//             return res.send({
-//                 success: true,
-//                 data: results,
-//                 error: null
-//             })
-//     }
-//     catch(err)
-//     {
-//         console.log(err)
-//         return res.send({
-//             success: false,
-//             data: null,
-//             error: err
-//         })
-//     } 
-// }
-module.exports = {add, remove}
+async function search(res, user_id, name, skill, weapon){
+    try{
+        armorsetName = name ? `%${name}%` : "%";
+        skill1 = skill ? `%${skill}%` : "%";
+        skill2 = skill ? `%${skill}%` : "%";
+        skill3 = skill ? `%${skill}%` : "%";
+        skill4 = skill ? `%${skill}%` : "%";
+        skill5 = skill ? `%${skill}%` : "%";
+        skill6 = skill ? `%${skill}%` : "%";
+        skill7 = skill ? `%${skill}%` : "%";
+        skill8 = skill ? `%${skill}%` : "%";
+        skill9 = skill ? `%${skill}%` : "%";
+        skill10 = skill ? `%${skill}%` : "%";
+        skill11 = skill ? `%${skill}%` : "%";
+        skill12 = skill ? `%${skill}%` : "%";
+        skill13 = skill ? `%${skill}%` : "%";
+        skill14 = skill ? `%${skill}%` : "%";
+        skill15 = skill ? `%${skill}%` : "%";
+        skill16 = skill ? `%${skill}%` : "%";
+        weaponSet = weapon ? `%${weapon}%` : "%";
+        const [results] = await pool.query(
+            "SELECT * FROM armorset WHERE armorset.user_id = ? AND armorset.name LIKE ? AND (armorset.skill1 LIKE ? OR armorset.skill2 LIKE ? OR armorset.skill3 LIKE ? OR armorset.skill4 LIKE ? OR armorset.skill5 LIKE ? OR armorset.skill6 LIKE ? OR armorset.skill7 LIKE ? OR armorset.skill8 LIKE ? OR armorset.skill9 LIKE ? OR armorset.skill10 LIKE ? OR armorset.skill11 LIKE ? OR armorset.skill12 LIKE ? OR armorset.skill13 LIKE ? OR armorset.skill14 LIKE ? OR armorset.skill15 LIKE ? OR armorset.skill16 LIKE ?) AND armorset.weapon LIKE ?",
+            [user_id, armorsetName, skill1, skill2, skill3, skill4, skill5, skill6, skill7, 
+                skill8, skill9, skill10, skill11, skill12, skill13, skill14, skill15, skill16, weaponSet])
+            return res.send({
+                success: true,
+                data: results,
+                error: null
+            })
+    }
+    catch(err)
+    {
+        console.log(err)
+        return res.send({
+            success: false,
+            data: null,
+            error: err
+        })
+    } 
+}
+module.exports = {add, remove, search}

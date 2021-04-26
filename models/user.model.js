@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt")
 const {v4: uuidv4} = require(`uuid`)
 const saltRounds = 12
 
-async function signup(res, user){
+async function signup(res, user, req){
     try{
         if(user.username.length < 4 || user.username.length > 16){
             throw "Username must be between 4 to 16 characters!"
@@ -19,6 +19,7 @@ async function signup(res, user){
         let user_id = uuidv4()
         let hash = bcrypt.hashSync(user.password, saltRounds)
         await pool.query("INSERT INTO users (username, password, user_id) VALUES (?,?,?)", [user.username, hash, user_id])
+        req.session.user = user.username;
         return res.send({
             success: true,
             data: "Succesfully created account!",

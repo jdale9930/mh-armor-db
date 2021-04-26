@@ -43,13 +43,13 @@ async function search(res, name, skill, slots, piece){
         skill2 = skill ? `%${skill}%` : "%";
         skill3 = skill ? `%${skill}%` : "%";
         skill4 = skill ? `%${skill}%` : "%";
-        slots = slots ? slots : 0;
+        slotsSearch = slots ? slots : 0;
         piece = piece ? `%${piece}%` : "%";
         // console.log(armorName, skill1, slots, piece)
 
         const [armor] = await pool.query(
-            "SELECT * FROM armor WHERE armor.name LIKE ? AND (armor.skill1 LIKE ? OR armor.skill2 LIKE ? OR armor.skill3 LIKE ? OR armor.skill4 LIKE ?) AND armor.piece LIKE ?",
-            [armorName, skill1, skill2, skill3, skill4, piece])
+            "SELECT * FROM armor WHERE armor.name LIKE ? AND (armor.skill1 LIKE ? OR armor.skill2 LIKE ? OR armor.skill3 LIKE ? OR armor.skill4 LIKE ?) AND (armor.slot1 >= ? OR armor.slot2 >= ? OR armor.slot3 >= ?) AND armor.piece LIKE ?",
+            [armorName, skill1, skill2, skill3, skill4, slotsSearch, slotsSearch, slotsSearch, piece])
             // console.log(armor)
             return res.send({
                 success: true,

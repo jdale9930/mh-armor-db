@@ -11,7 +11,7 @@ router.post("/remove", (req,res)=>{
 })
 
 router.get("/search", (req, res)=>{
-    return armorset.search(res, req.query.id, req.query.name, req.query.skill, req.query.slots)
+    return armorset.search(res, req.query.id, req.query.name, req.query.skill, req.query.weapon)
 })
 
 
