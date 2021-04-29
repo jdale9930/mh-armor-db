@@ -18,8 +18,8 @@ async function signup(res, user, req){
         }
         let user_id = uuidv4()
         let hash = bcrypt.hashSync(user.password, saltRounds)
+        console.log("pls")
         await pool.query("INSERT INTO users (username, password, user_id) VALUES (?,?,?)", [user.username, hash, user_id])
-        req.session.user = user.username;
         return res.send({
             success: true,
             data: "Succesfully created account!",
