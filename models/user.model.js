@@ -5,6 +5,7 @@ const saltRounds = 12
 
 async function signup(res, user, req){
     try{
+        console.log("Pls")
         if(user.username.length < 4 || user.username.length > 16){
             throw "Username must be between 4 to 16 characters!"
         }
@@ -22,7 +23,7 @@ async function signup(res, user, req){
         await pool.query("INSERT INTO users (username, password, user_id) VALUES (?,?,?)", [user.username, hash, user_id])
         return res.send({
             success: true,
-            data: "Succesfully created account!",
+            data: {username: user.username, user_id: user_id},
             error: null
         })
 
